@@ -1,5 +1,3 @@
-
-
 #include QMK_KEYBOARD_H
 
 extern keymap_config_t keymap_config;
@@ -45,6 +43,7 @@ enum {
     TD_SLA,
     TD_CAPLOCK,
     TD_ALT,
+    TD_MINS,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -56,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //---------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      TD(TD_CAPLOCK), KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,                 KC_N,    KC_M,    KC_COMM, KC_DOT,  TD(TD_SLA), RSFT_T(KC_ENT),
   //---------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         KC_LCTL, LOWER, KC_SPC,     KC_SPC, RAISE, TD(TD_ALT)
+                                         KC_LGUI, LOWER, KC_SPC,     KC_SPC, RAISE, TD(TD_ALT)
                                       //|--------------------------|  |--------------------------|
 
 
@@ -64,11 +63,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_LOWER] = LAYOUT(
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,   KC_BSPC,
+     KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,     KC_0,    KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_PWR, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU, LALT(KC_G),                   MACRO2 , RALT(KC_PSCR), XXXXXXX,   XXXXXXX,KC_UP, KC_DEL,
+     KC_PWR, KC_MPRV , KC_VOLD, KC_MNXT, KC_VOLU, LALT(KC_G),                   TD(TD_MINS), RALT(KC_PSCR), KC_UP,XXXXXXX,MACRO1, MACRO2,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_SLEP, XXXXXXX, XXXXXXX, KC_MPRV, KC_VOLD, KC_MNXT,                     MACRO1 , KC_MYCM, XXXXXXX, KC_LEFT,  KC_DOWN, KC_RGHT,
+     KC_LCTL, XXXXXXX, XXXXXXX, KC_C, XXXXXXX, KC_MNXT,                      XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX , XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          LCTL(KC_LALT), KC_TRNS, KC_SPC,    KC_SPC, RAISE, KC_RALT
                                       //|--------------------------|  |--------------------------|
@@ -108,6 +107,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_SLA] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, LSFT(KC_SLSH)),
     [TD_CAPLOCK] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
     [TD_ALT] = ACTION_TAP_DANCE_DOUBLE(KC_RALT, KC_LALT),
+    [TD_MINS] = ACTION_TAP_DANCE_DOUBLE(KC_MINS, LSFT(KC_MINS)),
 };
 
 int RGB_current_mode;
@@ -403,14 +403,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
             SEND_STRING("aqui el texto de la macro1\nque quieras pegar");
         } else {
-            
+
         }
         return false;
          case MACRO2:
     if (record->event.pressed) {
             SEND_STRING("aqui el texto de la macro2\nque quieras pegar");
         } else {
-            
+
         }
         return false;
       #ifdef RGB_MATRIX_ENABLE
